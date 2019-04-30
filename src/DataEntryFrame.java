@@ -1,3 +1,5 @@
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -137,9 +139,29 @@ public class DataEntryFrame extends JFrame
         this.add(formSelect);
 
         // TODO: add in all form-fillable components:
-        JPanel formFill = new JPanel(/* TODO: add layout manager */);
+        JPanel formFill = new JPanel(new GridLayout(8, 2, 1, 0));
+
         // TODO: add to panel...
         this.add(formFill);
+
+        formFill.add(firstNameInfo);
+
+        formFill.add(firstName);
+        formFill.add(midddleInitialInfo);
+        formFill.add(middleInitial);
+        formFill.add(lastNameInfo);
+        formFill.add(lastName);
+        formFill.add(displayNameInfo);
+        formFill.add(displayName);
+        formFill.add(SSNInfo);
+        formFill.add(SSN);
+
+        formFill.add(phoneInfo);
+        formFill.add(phone);
+        formFill.add(emailInfo);
+        formFill.add(email);
+        formFill.add(addressInfo);
+        formFill.add(address);
 
         // Add in the signature panel:
         spanel.addMouseMotionListener(new MouseMotionListener()
@@ -153,6 +175,7 @@ public class DataEntryFrame extends JFrame
             public void mouseDragged(MouseEvent e)
             {
                 // TODO: add a point to the panel on drag and repaint.
+
             }
         });
         this.add(signatureInfo);
@@ -181,6 +204,11 @@ public class DataEntryFrame extends JFrame
 
             // TODO: use the JTextFields and the signature panel to set the values
             // of the selected FormData object.
+
+            FormData.setValues(datalist.get(select).getFirstName(), datalist.get(select).getMiddleInitial(),
+                    datalist.get(select).getLastName(), datalist.get(select).getDisplayName(),
+                    datalist.get(select).getSSN(), datalist.get(select).getPhone(), datalist.get(select).getEmail(),datalist.get(select).getAddress()
+                    datalist.get(select).getSignature());
 
             this.setVisuals(datalist.get(select));
             DefaultComboBoxModel<String> newComboBoxModel = getComboBoxModel(datalist);
