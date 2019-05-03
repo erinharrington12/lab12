@@ -5,7 +5,9 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -181,6 +183,8 @@ public class DataEntryFrame extends JFrame
             public void mouseDragged(MouseEvent e)
             {
                 // TODO: add a point to the panel on drag and repaint.
+                spanel.addPoint(e.getLocationOnScreen());
+                spanel.paintComponent(getGraphics());
 
             }
         });
@@ -211,10 +215,9 @@ public class DataEntryFrame extends JFrame
             // TODO: use the JTextFields and the signature panel to set the values
             // of the selected FormData object.
 
-            datalist.get(select).setValues(datalist.get(select).getFirstName(), datalist.get(select).getMiddleInitial(),
-                    datalist.get(select).getLastName(), datalist.get(select).getDisplayName(),
-                    datalist.get(select).getSSN(), datalist.get(select).getPhone(), datalist.get(select).getEmail(),
-                    datalist.get(select).getAddress(), datalist.get(select).getSignature());
+            datalist.get(select).setValues(firstName.toString(), middleInitial.getText().charAt(0), lastName.toString(),
+                    displayName.toString(), SSN.toString(), email.toString(), phone.toString(), address.toString(),
+                    spanel.getSignature());
 
             this.setVisuals(datalist.get(select));
             DefaultComboBoxModel<String> newComboBoxModel = getComboBoxModel(datalist);
@@ -223,6 +226,7 @@ public class DataEntryFrame extends JFrame
 
             // TODO: display an error message if setting the values failed. Else, display a
             // success message.w
+            
 
         });
 
@@ -257,9 +261,9 @@ public class DataEntryFrame extends JFrame
         {
 
             // TODO: Choose a file (hint, use JFileChooser):
-            
+
             // TODO: extract object from a file (hint, use file.getAbsolutePath()):
-            
+
             // You will use the file to replace the datalist object. I.e. you will be
             // loading in a new
             // list of formdata.
@@ -273,8 +277,9 @@ public class DataEntryFrame extends JFrame
              */
             JFileChooser fc = new JFileChooser();
             int r = fc.showOpenDialog(null);
-            if (r == JFileChooser.APPROVE_OPTION) {
-                error
+            if (r == JFileChooser.APPROVE_OPTION)
+            {
+
             }
             int select = 0;
             DefaultComboBoxModel<String> newComboBoxModel = getComboBoxModel(datalist);
@@ -288,23 +293,31 @@ public class DataEntryFrame extends JFrame
             // TODO: Choose a file (hint, use JFileChooser):
             // TODO: export datalist from a file (hint, use file.getAbsolutePath()):
             // TODO: display error message on fail, else display success message
-          
-            
+
             JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
             int r = fc.showSaveDialog(null);
-            if (r == JFileChooser.APPROVE_OPTION) {
+            if (r == JFileChooser.APPROVE_OPTION)
+            {
                 errorField.setText("Form Information Succesfully Updated!");
-            } 
-            
-            FileOutputStream file = new FileOutputStream(fc.getSelectedFile().getAbsolutePath());
-            ObjectOutputStream out = new ObjectOutputStream(file);
-            
-            out.writeObject(out);
-            out.close();
-            file.close();
-            
-            System.out.println("Object exported");
-            
+            }
+
+            try
+            {
+                FileOutputStream file = new FileOutputStream(fc.getSelectedFile().getAbsolutePath());
+                ObjectOutputStream out = new ObjectOutputStream(file);
+
+                out.writeObject(out);
+                out.close();
+                file.close();
+                System.out.println("Object exported");
+
+            }
+            catch (IOException e1)
+            {
+                // TODO Auto-generated catch block
+                System.out.println("IOException is caught");
+            }
+
         });
 
         // TODO: add import/export to panel and add to frame
